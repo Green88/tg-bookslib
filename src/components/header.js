@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import LoginButton from './login-button';
 
 export default class Header extends Component {
   render() {
     return (
       <nav className="header-container">
-        <span>Title</span>
-        <span>Login</span>
+        <h1>Writers library</h1>
+        <LoginButton/>
       </nav>
     );
   }
