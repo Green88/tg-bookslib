@@ -16,7 +16,6 @@ class LoginButton extends Component {
     }
 
     requestLogin() {
-        console.log('request login');
         this.props.requestLogin();
         //disable login button
     }

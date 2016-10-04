@@ -8,7 +8,7 @@ import {
 } from './types';
 
 
-const ROOT_URL = 'localhost:3090';
+const ROOT_URL = 'http://localhost:3090';
 
 export function fetchBooks() {
     const request = axios.get(`${ROOT_URL}/books`);
@@ -26,11 +26,17 @@ export function requestLogin() {
 }
 
 export function login(email, password) {
-    const request = axios.post(`${ROOT_URL}/signin`, { email, password });
-    return {
-      type: LOGIN_USER,
-      payload: request
-    };
+    return function(dispatch) {
+        axios.post(`${ROOT_URL}/signin`, { email, password })
+            .then(response => {
+                const data = response.data;
+                dispatch({ type: LOGIN_USER });
+                localStorage.setItem('token', data.payload.token);
+            })
+            .catch(() => {
+                dispatch(authError('Bad Login Info'));
+            });
+    }
 }
 
 export function requestRegister() {
