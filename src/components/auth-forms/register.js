@@ -4,15 +4,15 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 
-class Login extends Component {
+class Register extends Component {
     render() {
         return (
-            <div>Login Form</div>
+            <div>Register Form</div>
         );
     }
 }
 
 export default reduxForm({
-    form: 'login',
+    form: 'register',
     fields: ['email', 'password']
-})(Login)
+})(Register)
