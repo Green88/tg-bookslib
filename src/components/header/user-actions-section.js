@@ -7,6 +7,29 @@ import { connect } from 'react-redux';
 
 class UserActionsSection extends Component {
   render() {
+      //this.updateActions();
+      if(this.props.authenticated) {
+          return (
+              <div>
+                  <ProfileButton/>
+                  <LogoutButton/>
+              </div>
+          );
+      } else {
+          return (
+              <div>
+                  <LoginButton/>
+                  <RegisterButton/>
+              </div>
+          );
+      }
+  }
+
+  componentWillReceiveProps(nextProp) {
+    this.updateActions();
+  }
+
+  updateActions() {
       if(this.props.authenticated) {
           return (
               <div>

@@ -4,7 +4,9 @@ import {
     LOGIN_USER,
     REQUEST_LOGIN,
     REGISTER_USER,
-    REQUEST_REGISTER
+    REQUEST_REGISTER,
+    CLOSE_MODAL,
+    LOGOUT_USER
 } from './types';
 
 
@@ -31,6 +33,7 @@ export function login(email, password) {
             .then(response => {
                 const data = response.data;
                 dispatch({ type: LOGIN_USER });
+                dispatch({ type: CLOSE_MODAL });
                 localStorage.setItem('token', data.payload.token);
             })
             .catch(() => {
@@ -50,5 +53,12 @@ export function register(email, password) {
     return {
         type: REGISTER_USER,
         payload: request
+    };
+}
+
+export function logout() {
+    localStorage.removeItem('token');
+    return {
+        type: LOGOUT_USER
     };
 }

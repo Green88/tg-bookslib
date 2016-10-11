@@ -14,10 +14,6 @@ export default function(state = {}, action) {
             return { ...state, authenticated: true};
         case LOGOUT_USER:
             return { ...state, authenticated: false};
-        case REQUEST_LOGIN:
-            return { ...state, request: 'login'};
-        case REQUEST_REGISTER:
-            return { ...state, request: 'register'};
         default:
             return state;
     }

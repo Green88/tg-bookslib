@@ -3,6 +3,7 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { logout } from '../../actions/index';
 
 class LogoutButton extends Component {
     render() {
@@ -15,7 +16,9 @@ class LogoutButton extends Component {
     }
 
     requestLogout() {
-
+        if(this.props.authenticated) {
+            this.props.logout();
+        }
     }
 }
 
@@ -25,4 +28,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(LogoutButton);
+export default connect(mapStateToProps, { logout } )(LogoutButton);
