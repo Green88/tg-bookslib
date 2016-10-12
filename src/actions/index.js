@@ -49,11 +49,18 @@ export function requestRegister() {
 }
 
 export function register(email, password) {
-    const request = axios.post(`${ROOT_URL}/signup`, { email, password });
-    return {
-        type: REGISTER_USER,
-        payload: request
-    };
+    return function(dispatch) {
+        axios.post(`${ROOT_URL}/signup`, { email, password })
+            .then(response => {
+                const data = response.data;
+                dispatch({ type: REGISTER_USER });
+                dispatch({ type: CLOSE_MODAL });
+                localStorage.setItem('token', data.payload.token);
+            })
+            .catch(() => {
+                dispatch(authError('Bad Register Info'));
+            });
+    }
 }
 
 export function logout() {
