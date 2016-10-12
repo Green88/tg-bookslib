@@ -34,7 +34,7 @@ export function login(email, password) {
             .then(response => {
                 const data = response.data;
                 dispatch({ type: LOGIN_USER });
-                dispatch({ type: CLOSE_MODAL });
+                dispatch(closePopup());
                 localStorage.setItem('token', data.payload.token);
             })
             .catch(() => {
@@ -55,7 +55,7 @@ export function register(email, password) {
             .then(response => {
                 const data = response.data;
                 dispatch({ type: REGISTER_USER });
-                dispatch({ type: CLOSE_MODAL });
+                dispatch(closePopup());
                 localStorage.setItem('token', data.payload.token);
             })
             .catch(() => {
@@ -75,5 +75,11 @@ export function logout() {
     localStorage.removeItem('token');
     return {
         type: LOGOUT_USER
+    };
+}
+
+export function closePopup() {
+    return {
+        type: CLOSE_MODAL
     };
 }

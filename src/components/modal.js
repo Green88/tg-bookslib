@@ -39,7 +39,7 @@ class Modal extends Component {
                 );
             default:
                 return (
-                    <div>Modal is empty</div>
+                    <div className="hidden"></div>
                 );
         }
     }

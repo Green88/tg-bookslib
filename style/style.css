@@ -7,3 +7,11 @@
 .header-container span {
 
 }
+
+.hidden {
+    display: none;
+}
+
+.second {
+    margin-left: 10px;
+}

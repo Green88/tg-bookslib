@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { register } from '../../actions/index';
+import { register, closePopup } from '../../actions/index';
 
 class Register extends Component {
 
@@ -30,8 +30,15 @@ class Register extends Component {
                     <strong>Oops!</strong> {this.props.errorMessage}
                 </div>}
                 <button action="submit" disabled={submitting} className="btn btn-primary">Register</button>
+                <button action="button" onClick={this.closeForm.bind(this)} className="btn btn-primary second">Close</button>
             </form>
         );
+    }
+
+    closeForm(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.closePopup();
     }
 
     renderField({ input, label, type, meta: { touched, error } }) {
@@ -74,4 +81,4 @@ Register = reduxForm({
 function mapStateToProps(state) {
     return { errorMessage: state.auth.error };
 }
-export default connect(mapStateToProps, { register })(Register);
+export default connect(mapStateToProps, { register, closePopup })(Register);
