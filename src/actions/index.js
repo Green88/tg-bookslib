@@ -55,11 +55,25 @@ export function register(email, password) {
             .then(response => {
                 const data = response.data;
                 dispatch({ type: REGISTER_USER });
+                dispatch(createProfile(data.payload.id));
                 dispatch(closePopup());
                 localStorage.setItem('token', data.payload.token);
             })
             .catch(() => {
                 dispatch(authError('Bad Register Info'));
+            });
+    }
+}
+
+export function createProfile(id) {
+    return function(dispatch) {
+        axios.post(`${ROOT_URL}/profile/create`, { id })
+            .then(response => {
+                const data = response.data;
+                localStorage.setItem('user', JSON.stringify(data.payload));
+            })
+            .catch((error) => {
+                console.log(error);
             });
     }
 }
@@ -73,6 +87,7 @@ export function authError(error) {
 
 export function logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     return {
         type: LOGOUT_USER
     };
