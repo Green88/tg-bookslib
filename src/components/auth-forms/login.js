@@ -23,7 +23,9 @@ class Login extends Component {
                 <fieldset className="form-group">
                     <Field name="password" label="Password" component={this.renderField.bind(this)} type="password" className="form-control" />
                 </fieldset>
-
+                {this.props.errorMessage && <div className="alert alert-danger">
+                    <strong>Oops!</strong> {this.props.errorMessage}
+                </div>}
                 <button action="submit" disabled={submitting}  className="btn btn-primary">Login</button>
             </form>
         );
@@ -40,6 +42,7 @@ class Login extends Component {
             </div>
         );
     }
+
 }
 
 const validate = values => {
@@ -62,7 +65,9 @@ Login = reduxForm({
 })(Login);
 
 function mapStateToProps(state) {
-    return {  };
+    return {
+        errorMessage: state.auth.error
+    };
 }
 export default connect(mapStateToProps, { login })(Login);
 

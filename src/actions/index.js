@@ -6,7 +6,8 @@ import {
     REGISTER_USER,
     REQUEST_REGISTER,
     CLOSE_MODAL,
-    LOGOUT_USER
+    LOGOUT_USER,
+    AUTH_ERROR
 } from './types';
 
 
@@ -61,6 +62,13 @@ export function register(email, password) {
                 dispatch(authError('Bad Register Info'));
             });
     }
+}
+
+export function authError(error) {
+    return {
+        type: AUTH_ERROR,
+        payload: error
+    };
 }
 
 export function logout() {

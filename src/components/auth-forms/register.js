@@ -26,7 +26,9 @@ class Register extends Component {
                 <fieldset className="form-group">
                     <Field name="confirmPassword" label="Confirm Password" component={this.renderField.bind(this)} type="password" className="form-control" />
                 </fieldset>
-
+                {this.props.errorMessage && <div className="alert alert-danger">
+                    <strong>Oops!</strong> {this.props.errorMessage}
+                </div>}
                 <button action="submit" disabled={submitting} className="btn btn-primary">Register</button>
             </form>
         );
@@ -70,6 +72,6 @@ Register = reduxForm({
 })(Register);
 
 function mapStateToProps(state) {
-    return {  };
+    return { errorMessage: state.auth.error };
 }
 export default connect(mapStateToProps, { register })(Register);
