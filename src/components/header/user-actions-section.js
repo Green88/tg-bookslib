@@ -4,10 +4,18 @@ import RegisterButton from './register-button';
 import LogoutButton from './logout-button';
 import ProfileButton from './profile-button';
 import { connect } from 'react-redux';
+import { authWithToken } from '../../actions/auth';
 
 class UserActionsSection extends Component {
-  render() {
-      //this.updateActions();
+
+    componentWillMount() {
+        const token = localStorage.getItem('token');
+        if(token && !this.props.authenticated){
+            this.props.authWithToken(token);
+        }
+    }
+
+    render() {
       if(this.props.authenticated) {
           return (
               <div>
@@ -54,4 +62,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(UserActionsSection);
+export default connect(mapStateToProps, { authWithToken })(UserActionsSection);

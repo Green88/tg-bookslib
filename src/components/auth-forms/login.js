@@ -4,7 +4,8 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { login, closePopup } from '../../actions/index';
+import { closePopup } from '../../actions/index';
+import { login } from '../../actions/auth';
 
 class Login extends Component {
 

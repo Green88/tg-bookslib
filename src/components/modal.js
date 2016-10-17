@@ -7,8 +7,10 @@ import RegisterForm from './auth-forms/register';
 import { connect } from 'react-redux';
 
 class Modal extends Component {
-    componentWillReceiveProps(nextProp) {
-        this.updateModal();
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.modal !== this.props.modal) {
+            this.updateModal();
+        }
     }
 
     updateModal() {
@@ -23,7 +25,7 @@ class Modal extends Component {
                 );
             default:
                 return (
-                    <div>Modal is empty</div>
+                    <div className="hidden"></div>
                 );
         }
     }

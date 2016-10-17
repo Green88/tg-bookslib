@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { requestRegister} from '../../actions/index';
+import { requestRegister} from '../../actions/auth';
 
 class RegisterButton extends Component {
     render() {

@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { requestLogin } from '../../actions/index';
+import { requestLogin } from '../../actions/auth';
 
 class LoginButton extends Component {
     render() {

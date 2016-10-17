@@ -1,4 +1,4 @@
-import { FETCH_BOOKS } from '../actions/index';
+import { FETCH_BOOKS } from '../actions/types';
 
 const INITIAL_STATE = { all: [], book: null };
 
