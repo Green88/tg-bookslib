@@ -6,6 +6,14 @@ import {
     TOKEN_AUTH
 } from '../actions/types';
 
+const initialState = {
+    pending: false,
+    failed: false,
+    success: false,
+    response: null,
+    err: null
+};
+
 export default function(state = {}, action) {
     switch(action.type) {
         case LOGIN_USER:
