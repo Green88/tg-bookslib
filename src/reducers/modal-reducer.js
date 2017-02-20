@@ -1,17 +1,19 @@
 import {
-    REQUEST_LOGIN,
-    REQUEST_REGISTER,
+    OPEN_MODAL,
     CLOSE_MODAL
 } from '../actions/types';
 
-export default function(state = {openModal: 'none'}, action) {
+const initialState = {
+    isOpen: false,
+    modalType: 'none'
+};
+
+export default function(state = initialState, action) {
     switch(action.type) {
-        case REQUEST_LOGIN:
-            return { ...state, openModal: 'login'};
-        case REQUEST_REGISTER:
-            return { ...state, openModal: 'register'};
+        case OPEN_MODAL:
+            return { ...state, isOpen: true, modalType: action.payload};
         case CLOSE_MODAL:
-            return {...state, openModal: 'none'};
+            return {...state, isOpen: false, modalType: action.payload};
         default:
             return state;
     }

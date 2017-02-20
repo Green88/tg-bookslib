@@ -1,8 +1,5 @@
 import axios from 'axios';
-import {
-    FETCH_BOOKS,
-    CLOSE_MODAL
-} from './types';
+import { FETCH_BOOKS } from './types';
 
 import { ROOT_URL } from '../config';
 
@@ -15,8 +12,3 @@ export function fetchBooks() {
     };
 }
 
-export function closePopup() {
-    return {
-        type: CLOSE_MODAL
-    };
-}
