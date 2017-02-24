@@ -13,7 +13,7 @@ import {
 } from './types';
 
 import { ROOT_URL } from '../config';
-import { closePopup } from './index';
+import { closePopup } from './modal';
 import { createProfile } from './profile';
 
 export function authWithToken(token) {
@@ -54,12 +54,6 @@ export function login(email, password) {
                 dispatch(authError('Bad Login Info'));
             });
     }
-}
-
-export function requestRegister() {
-    return {
-        type: REQUEST_REGISTER
-    };
 }
 
 export function register(email, password, username) {

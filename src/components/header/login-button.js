@@ -9,6 +9,12 @@ class LoginButton extends Component {
   static propTypes = {
     openModal: PropTypes.func
   };
+
+  openLoginModal() {
+    this.props.openModal('login');
+    // todo: disable login button
+  }
+
   render() {
     return (
       <button
@@ -18,11 +24,6 @@ class LoginButton extends Component {
           Login
       </button>
     );
-  }
-
-  openLoginModal() {
-    this.props.openModal('login');
-    // todo: disable login button
   }
 }
 
