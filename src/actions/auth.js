@@ -3,12 +3,13 @@
  */
 import axios from 'axios';
 import {
-    LOGIN_USER,
-    REQUEST_LOGIN,
-    REGISTER_USER,
-    LOGOUT_USER,
-    AUTH_ERROR,
-    TOKEN_AUTH
+  LOGIN_PENDING,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  REGISTER_PENDING,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  LOGOUT_USER,
 } from './types';
 
 import { ROOT_URL } from '../config';
@@ -16,75 +17,65 @@ import { closePopup } from './modal';
 import { createProfile } from './profile';
 
 export function authWithToken(token) {
-    return function(dispatch) {
-        axios.get(`${ROOT_URL}/user/get`, { headers: { authorization: token }})
-            .then(response => {
-                const data = response.data;
-                dispatch({
-                    type: TOKEN_AUTH,
-                    payload: data.payload.user
-                });
-            })
-            .catch(() => {
-                dispatch(authError('Bad Login Info'));
-            });
-    }
-}
-
-export function requestLogin() {
-    return {
-        type: REQUEST_LOGIN
-    };
+  return function(dispatch) {
+    dispatch({type: LOGIN_PENDING});
+    axios.get(`${ROOT_URL}/user/get`, { headers: { authorization: token }})
+      .then(response => {
+        const data = response.data;
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: data.payload.user
+        });
+      })
+      .catch((error) => {
+        dispatch({type: LOGIN_FAIL, payload: error});
+      });
+  }
 }
 
 export function login(email, password) {
-    return function(dispatch) {
-        axios.post(`${ROOT_URL}/signin`, { email, password })
-            .then(response => {
-                const data = response.data;
-                dispatch({
-                    type: LOGIN_USER,
-                    payload: data.payload.user
-                });
-                dispatch(closePopup());
-                localStorage.setItem('token', data.payload.token);
-            })
-            .catch(() => {
-                dispatch(authError('Bad Login Info'));
-            });
-    }
+  return function(dispatch) {
+    dispatch({type: LOGIN_PENDING});
+    axios.post(`${ROOT_URL}/signin`, { email, password })
+      .then(response => {
+        const data = response.data;
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: data.payload.user
+        });
+        dispatch(closePopup());
+        localStorage.setItem('token', data.payload.token);
+      })
+      .catch((error) => {
+        dispatch({type: LOGIN_FAIL, payload: error});
+      });
+  }
 }
 
 export function register(email, password, username) {
-    return function(dispatch) {
-        axios.post(`${ROOT_URL}/signup`, { email, password, username })
-            .then(response => {
-                const data = response.data;
-                dispatch({
-                    type: REGISTER_USER,
-                    payload: data.payload.user
-                });
-                dispatch(createProfile(data.payload.user));
-                dispatch(closePopup());
-                localStorage.setItem('token', data.payload.token);
-            })
-            .catch(() => {
-                dispatch(authError('Bad Register Info'));
-            });
-    }
-}
-
-export function authError(error) {
-    return {
-        type: AUTH_ERROR,
-        payload: error
-    };
+  return function(dispatch) {
+    dispatch({type: REGISTER_PENDING});
+    axios.post(`${ROOT_URL}/signup`, { email, password, username })
+      .then(response => {
+        const data = response.data;
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: data.payload.user
+        });
+        dispatch(createProfile(data.payload.user));
+        dispatch(closePopup());
+        localStorage.setItem('token', data.payload.token);
+      })
+      .catch(() => {
+        dispatch({type: REGISTER_FAIL, payload: error});
+      });
+  }
 }
 
 export function logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('profile');
-    return {
-        type: LOGOUT_USER
-    };
+  localStorage.removeItem('token');
+  localStorage.removeItem('profile');
+  return {
+    type: LOGOUT_USER
+  };
 }

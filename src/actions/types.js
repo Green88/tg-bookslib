@@ -1,17 +1,20 @@
-/**
- * Created by Tania on 04/10/16.
- */
+// BOOKS
 export const FETCH_BOOKS = 'FETCH_BOOKS';
 
-export const LOGIN_USER = 'LOGIN_USER';
-export const REQUEST_LOGIN = 'REQUEST_LOGIN';
-export const REGISTER_USER = 'REGISTER_USER';
-export const REQUEST_REGISTER = 'REQUEST_REGISTER';
-export const LOGOUT_USER = 'LOGOUT_USER';
-export const AUTH_ERROR = 'AUTH_ERROR';
-export const TOKEN_AUTH = 'TOKEN_AUTH';
+//AUTH
+export const LOGIN_PENDING = 'LOGIN_PENDING';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
 
+export const REGISTER_PENDING = 'REGISTER_PENDING';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'REGISTER_FAIL';
+
+export const LOGOUT_USER = 'LOGOUT_USER';
+
+// PROFILE
 export const FETCH_PROFILE = 'FETCH_PROFILE';
 
+// MODALS
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
