@@ -21,15 +21,15 @@ export default function(state = initialState, action) {
   switch(action.type) {
     case LOGIN_PENDING:
     case REGISTER_PENDING:
-        return { ...state, pending: true };
+        return { ...state, pending: true, authenticated: false, error: null, user: null };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-        return { ...state, pending: false, authenticated: true, user: action.payload };
+        return { ...state, pending: false, authenticated: true, error: null, user: action.payload };
     case LOGIN_FAIL:
     case REGISTER_FAIL:
-        return { ...state, pending: false, authenticated: false, error: action.payload };
+        return { ...state, pending: false, authenticated: false, error: action.payload, user: null };
     case LOGOUT_USER:
-      return { ...state, error: null, authenticated: false, user: null };
+      return { ...state, error: null, authenticated: false, user: null, error: null };
     default:
       return state;
   }

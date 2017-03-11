@@ -6,27 +6,14 @@ import ProfileButton from './profile-button';
 import { connect } from 'react-redux';
 import { authWithToken } from '../../actions/auth';
 
-class UserActionsSection extends Component {
+export default class UserActionsSection extends Component {
   static propTypes = {
-    user: PropTypes.string
+    auth: PropTypes.bool
   };
-  constructor(props) {
-    super(props);
-  }
-
-  // componentWillMount() {
-  //     const token = localStorage.getItem('token');
-  //     if(token && !this.props.authenticated){
-  //         this.props.authWithToken(token);
-  //     }
-  // }
-  //
-  // componentWillReceiveProps(nextProp) {
-  //   this.updateActions();
-  // }
-
 
   render() {
+    const { auth } = this.props;
+
     const anonState = function() {
       return (
         <div>
@@ -39,29 +26,17 @@ class UserActionsSection extends Component {
       return (
         <div>
           <ProfileButton/>
-          <LogoutButton/>
+          <LogoutButton
+            auth={auth}
+          />
         </div>
       );
     };
 
-    const { user } = this.props;
-
     return (
       <div>
-        {user === 'anon' ? anonState() : authState()}
+        {auth ? authState() : anonState()}
       </div>
     );
   }
 }
-
-
-
-
-
-function mapStateToProps(state) {
-    return {
-        authenticated: state.auth.authenticated
-    };
-}
-
-export default connect(mapStateToProps, { authWithToken })(UserActionsSection);

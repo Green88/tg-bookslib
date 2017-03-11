@@ -1,23 +1,57 @@
-/**
- * Created by Tania on 26/09/16.
- */
-import { ROOT_URL } from '../../config';
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import axios from 'axios';
+
 import { closeModal } from '../../actions/modal';
 import { register } from '../../actions/auth';
+import { ROOT_URL } from '../../config';
 
-
-import axios from 'axios';
+const renderField = ({ input, label, type, meta: { asyncValidating, touched, error } }) => {
+  return (
+    <div>
+      <label>{label}</label>
+      <div className={asyncValidating ? 'async-validating' : ''}>
+        <input {...input} type={type} placeholder={label}/>
+        {touched && error && <span>{error}</span>}
+      </div>
+    </div>
+  );
+};
 
 
 class Register extends Component {
 
   static propTypes = {
     closeModal: PropTypes.func,
-    register: PropTypes.func
+    register: PropTypes.func,
+    registrationError: PropTypes.object
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      registrationError: null
+    };
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.registrationError && nextProps.registrationError !== this.props.registrationError) {
+      if(nextProps.registrationError.errorId === 409) {
+        this.setState({
+          registrationError: 'User with this email already exists'
+        });
+      } else {
+        this.setState({
+          registrationError: 'Registration failed'
+        });
+      }
+    } else {
+      this.setState({
+        registrationError: null
+      });
+    }
+  }
 
   handleFormSubmit(formData) {
     this.props.register(formData.email, formData.password, formData.username);
@@ -29,37 +63,49 @@ class Register extends Component {
     this.props.closeModal();
   }
 
-  renderField({ input, label, type, meta: { asyncValidating, touched, error } }) {
-    return (
-      <div>
-        <label>{label}</label>
-        <div className={asyncValidating ? 'async-validating' : ''}>
-          <input {...input} type={type} placeholder={label}/>
-          {touched && error && <span>{error}</span>}
-        </div>
-      </div>
-    );
-  }
-
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
         <fieldset className="form-group">
-          <Field name="email" label="Email" type="email" className="form-control" component={this.renderField.bind(this)} />
+          <Field
+            name="email"
+            label="Email"
+            type="email"
+            className="form-control"
+            component={renderField}
+          />
         </fieldset>
         <fieldset className="form-group">
-          <Field name="username" label="Username" component={this.renderField.bind(this)} type="text" className="form-control" />
+          <Field
+            name="username"
+            label="Username"
+            component={renderField}
+            type="text"
+            className="form-control"
+          />
         </fieldset>
         <fieldset className="form-group">
-          <Field name="password" label="Password" component={this.renderField.bind(this)} type="password" className="form-control" />
+          <Field
+            name="password"
+            label="Password"
+            component={renderField}
+            type="password"
+            className="form-control"
+          />
         </fieldset>
         <fieldset className="form-group">
-          <Field name="confirmPassword" label="Confirm Password" component={this.renderField.bind(this)} type="password" className="form-control" />
+          <Field
+            name="confirmPassword"
+            label="Confirm Password"
+            component={renderField}
+            type="password"
+            className="form-control"
+          />
         </fieldset>
-        {this.props.errorMessage && <div className="alert alert-danger">
-          <strong>Oops!</strong> {this.props.errorMessage}
+        {this.state.registrationError && <div className="alert alert-danger">
+          <strong>Oops!</strong> {this.state.registrationError}
         </div>}
         <button action="submit" disabled={submitting || pristine} className="btn btn-primary">Register</button>
         <button action="button" onClick={this.closeForm.bind(this)} className="btn btn-primary second">Close</button>
@@ -83,10 +129,10 @@ const validate = values => {
   if(!values.password) {
     errors.password = 'Required';
   }
-
   if(!values.confirmPassword) {
     errors.password = 'Required';
-  } else if(values.password !== values.confirmPassword) {
+  }
+  if(values.password && values.confirmPassword && values.password !== values.confirmPassword) {
     errors.password = 'Passwords should match';
   }
   return errors;
@@ -97,7 +143,7 @@ const asyncValidate = (values, dispatch) => {
 
   return request
     .then(response => {
-      console.log(response);
+      console.log('Username available');
     })
     .catch(error => {
       var data = error.response.data;
@@ -115,6 +161,7 @@ Register = reduxForm({
 })(Register);
 
 function mapStateToProps(state) {
-  return { errorMessage: state.auth.error };
+  // console.log('state', state);
+  return { registrationError: state.auth.error };
 }
 export default connect(mapStateToProps, { register, closeModal })(Register);

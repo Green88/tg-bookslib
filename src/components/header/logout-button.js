@@ -7,10 +7,11 @@ import { logout } from '../../actions/auth';
 
 class LogoutButton extends Component {
   static propTypes = {
-    logout: PropTypes.func
+    logout: PropTypes.func,
+    auth: PropTypes.bool
   };
   requestLogout() {
-    if(this.props.authenticated) {
+    if(this.props.auth) {
       this.props.logout();
     }
   }

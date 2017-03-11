@@ -7,24 +7,12 @@ import { connect } from 'react-redux';
 import UserActionsSection from './user-actions-section';
 
 // @ACTIONS
-import { authWithToken } from '../../actions/auth';
 
-class Header extends Component {
+export default class Header extends Component {
   static propTypes = {
-    user: PropTypes.string
+    auth: PropTypes.bool
   };
-  constructor(props) {
-    super(props);
-  }
-  componentWillMount() {
-    const token = localStorage.getItem('token');
-    if(token && !this.props.authenticated){
-        this.props.authWithToken(token);
-    }
-  }
-  componentWillReceiveProps() {
 
-  }
   render() {
     return (
       <nav className="header-container">
@@ -32,17 +20,10 @@ class Header extends Component {
             <Link to="/">Writers Library</Link>
         </h1>
         <UserActionsSection
-          user={this.props.user}
+          auth={this.props.auth}
         />
       </nav>
     );
   }
-};
-
-function mapStateToProps(state) {
-  return {
-    authenticated: state.auth.authenticated
-  };
 }
 
-export default connect(mapStateToProps, { authWithToken })(Header);

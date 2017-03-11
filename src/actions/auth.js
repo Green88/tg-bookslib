@@ -13,7 +13,7 @@ import {
 } from './types';
 
 import { ROOT_URL } from '../config';
-import { closePopup } from './modal';
+import { closeModal } from './modal';
 import { createProfile } from './profile';
 
 export function authWithToken(token) {
@@ -28,7 +28,7 @@ export function authWithToken(token) {
         });
       })
       .catch((error) => {
-        dispatch({type: LOGIN_FAIL, payload: error});
+        dispatch({type: LOGIN_FAIL, payload: error.response.data});
       });
   }
 }
@@ -43,11 +43,11 @@ export function login(email, password) {
           type: LOGIN_SUCCESS,
           payload: data.payload.user
         });
-        dispatch(closePopup());
+        dispatch(closeModal());
         localStorage.setItem('token', data.payload.token);
       })
       .catch((error) => {
-        dispatch({type: LOGIN_FAIL, payload: error});
+        dispatch({type: LOGIN_FAIL, payload: error.response.data});
       });
   }
 }
@@ -63,11 +63,11 @@ export function register(email, password, username) {
           payload: data.payload.user
         });
         dispatch(createProfile(data.payload.user));
-        dispatch(closePopup());
+        dispatch(closeModal());
         localStorage.setItem('token', data.payload.token);
       })
-      .catch(() => {
-        dispatch({type: REGISTER_FAIL, payload: error});
+      .catch((error) => {
+        dispatch({type: REGISTER_FAIL, payload: error.response.data});
       });
   }
 }
